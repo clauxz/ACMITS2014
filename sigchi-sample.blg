@@ -1,0 +1,10 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: sigchi-sample.aux
+The style file: acm-sigchi.bst
+Database file #1: sample.bib
+Repeated entry---line 144 of file sample.bib
+ : @article{brooke1996sus
+ :                       ,
+I'm skipping whatever remains of this entry
+Warning--I didn't find a database entry for "Ballendat:2010:PID:1936652.1936676"
+Warning--empty school in publication-4659
+(There was 1 error message)

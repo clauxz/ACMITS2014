@@ -1,0 +1,376 @@
+\documentclass{sigchi}
+
+% Use this command to override the default ACM copyright statement (e.g. for preprints). 
+% Consult the conference website for the camera-ready copyright statement.
+
+
+%% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+% \toappear{Permission to make digital or hard copies of all or part of this work for personal or classroom use is 	granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
+% {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
+% Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
+% DOI string from ACM form confirmation}
+%% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+
+
+% Arabic page numbers for submission. 
+% Remove this line to eliminate page numbers for the camera ready copy
+\pagenumbering{arabic}
+
+
+% Load basic packages
+\usepackage{balance}  % to better equalize the last page
+\usepackage{graphics} % for EPS, load graphicx instead
+\usepackage{times}    % comment if you want LaTeX's default font
+\usepackage{url}      % llt: nicely formatted URLs
+
+% llt: Define a global style for URLs, rather that the default one
+\makeatletter
+\def\url@leostyle{%
+  \@ifundefined{selectfont}{\def\UrlFont{\sf}}{\def\UrlFont{\small\bf\ttfamily}}}
+\makeatother
+\urlstyle{leo}
+
+
+% To make various LaTeX processors do the right thing with page size.
+\def\pprw{8.5in}
+\def\pprh{11in}
+\special{papersize=\pprw,\pprh}
+\setlength{\paperwidth}{\pprw}
+\setlength{\paperheight}{\pprh}
+\setlength{\pdfpagewidth}{\pprw}
+\setlength{\pdfpageheight}{\pprh}
+
+% Make sure hyperref comes last of your loaded packages, 
+% to give it a fighting chance of not being over-written, 
+% since its job is to redefine many LaTeX commands.
+\usepackage[pdftex]{hyperref}
+\hypersetup{
+pdftitle={SIGCHI Conference Proceedings Format},
+pdfauthor={LaTeX},
+pdfkeywords={SIGCHI, proceedings, archival format},
+bookmarksnumbered,
+pdfstartview={FitH},
+colorlinks,
+citecolor=black,
+filecolor=black,
+linkcolor=black,
+urlcolor=black,
+breaklinks=true,
+}
+
+% create a shortcut to typeset table headings
+\newcommand\tabhead[1]{\small\textbf{#1}}
+
+
+% End of preamble. Here it comes the document.
+\begin{document}
+
+\title{Making, Exchanging, and Organizing Ideas Easily with a Digital Affinity Diagram}
+
+\numberofauthors{3}
+\author{
+  \alignauthor William Widjaja\\
+    \affaddr{Department of Management of Science and technology Human-Machine interface lab, Tohoku University}\\
+    \affaddr{Aobayama 6-6-01-2, Sendai, Japan}\\
+    \email{william.widjaja
+    @most.tohoku.ac.jp}\\
+  \alignauthor Haruna Hayasaka \\
+    \affaddr{Department of Quantum-Science Lab, Tohoku University}\\
+    \affaddr{Aobayama 6-6-01-2, Sendai, Japan}\\
+    \email{haruna.hayasaka
+    @luke.qse.tohoku.ac.jp}\\   
+  \alignauthor Masayuki Sawamura \\
+    \affaddr{Department of Quantum-Science Lab, Tohoku University}\\
+    \affaddr{Aobayama 6-6-01-2, Sendai, Japan}\\
+    \email{masayuki.sawamura
+    @luke.qse.tohoku.ac.jp}\\
+}
+
+\maketitle
+
+\begin{abstract}
+Problem solving in groups or teams requires individuals to exchange and organize their opinions in order to reach a solution. A popular method for structuring these idea exchanges is the affinity diagram. Creating an affinity diagram involves each member of a team writing individual opinions on sticky notes and making groups and links between these opinions with others by moving and arranging the sticky notes on a common wall or whiteboard. Despite being a standard business practice, this traditional paper-based method can be improved by integrating new technology. The Digital Affinity Diagram system (DADS), a digital post-it note creation and organization system, integrates private creation and public organization spaces in one computer environment. Using an extended dual-monitor setup to separate the two spaces, individuals can build stronger personal opinions by attaching references in a private space, and collaboratively organize group opinions in a cross-terminal synchronized public space.  We present a comparative study to determine which of the two methods is more usable for group practice. 
+\end{abstract}
+
+\keywords{
+	CSCW;Collaboration; Public-Private; Brainstorming; groupwork; Post-it Notes 
+}
+
+
+\category{H.5.1.}{Information Interfaces and Presentation (e.g. HCI)}{Miscellaneous}
+
+
+
+\section{Introduction}
+Exchanging and organizing ideas between groups is an integral part of group problem solving. One such method commonly used to exchange and organize ideas between people is called Affinity Diagramming\cite{kawakita1991original}. Affinity Diagrams are often created by writing individual ideas on Post-IT notes and, together with other participants, move and arrange the notes to create groups and links in accordance with the ideas' similarities. While brainstorming is widely used as a method of idea generation, there is less work on how groups can deepen ideas, or how they can use structural changes to increase understanding.\cite{dickey2012framespaces}
+
+In this paper, we introduce the Digital Affinity Diagram system (DADS), an individually-controlled multi-user synchronized affinity diagramming system. DADS allows each user to control digital sticky notes while concurrently synchronizing the visual movements across multiple users' screens in real-time. Synchronization is achieved by using a low-latency, highly optimized network socket server which updates and broadcasts each manipulation command at a high frequency. This technology allows multiple users to collaborate in creating affinity diagram together in a single sandbox. To show the system's usefulness, the current experiment compares it to the traditional methods of affinity diagram using sticky notes. We operationalize usability in three ways: a usability survey administered to participants, a more general System Usability Score, and several behavioral performance metrics. Our analyses determine which of the two methods is more preferred by users and whether DADS supports users in exchanging and organizing their ideas.
+
+Our system is inspired by similar work in virtual workspaces and collaboration tools, but differs from them in important ways. DADS separates public from private space in the idea creation phase so that users can compose and support their idea before putting it in public view. Separating public interaction space and private interaction space helps to alleviate users' anxiety, making it uniquely suited to discussing sensitive topics, or by cross-departmental teams who may not share the same level of expertise on all topics. Managing face threat and encouraging production are important problems in the study of group creativity. Separating public and private creative spaces has been proposed as a solution to brainstorming processes that are slow to start due to participants' anxiety\cite{paulus2000idea}. Digital systems provide a "screen" for introverted or uncertain users, and the explicit creation of a private space reduces production blocking in the brainstorming process \cite{brown1996simple}. In the system we present, users have the space to build confidence in their ideas before being subjected to critique by their peers.
+
+Our system further improves upon this process, using technology to circumvent some of the challenges of group dialogue, and at the same time providing users with new capabilities when conducting idea-exchanging activities. By leveraging commonly available and familiar technology, we have designed a user-friendly collaborative system to support and augment the affinity diagram process.
+
+\section{Previous Research}
+Other attempts to solve this problem have focused on exactly replicating the physical constraints in a digital format, as in Geyer and colleagues' Affinity Table\cite{Geyer:2011:DRI:2069618.2069647}. Their device allows users to create virtual sticky notes with digital ink and move them around via a multitouch surface. Similarly, Miura and colleagues' Group KJ system used digital pens to encourage as much similarity between the digital and analog process as possible, and focused on the record-keeping advantages of a digital system\cite{miura2011gkj}. Both of these systems retain some of the problems of the physical process of creating an affinity diagram: namely, negotiating physical space with others (the "seating arrangement" problem\cite{patterson1979effects}), and the space allowed for idea expression. While larger groups have been shown to produce more creative and higher quality ideas during brainstorming\cite{gallupe1994blocking}, affinity diagrams are usually limited to a smaller group due to space limitations. Our system takes a different approach, augmenting the affinity diagram process with tools that can increase the level of detail included in an idea without increasing the visual real estate required. Studies of digital proxemics\cite{ballendat2010proxemic} suggest that mediated interactions should encourage and supplement existing human interactions and goals. In the case of affinity diagrams, current digital implementations fall prey to the same errors in proxemics that the analog version does - individuals compete for space and public-board real estate instead of focusing on creating persuasive and relevant ideas. By giving each participant their own access to the public board through a multitouch auxiliary monitor, our system eliminates this competition for space. Using DADS, every participant has equal access to the public idea space at all times. 
+
+We also incorporate color-coding of notes to identify authors, which reduces the anonymity of the digital process. Instead of a system that promotes neutrality, like that developed by Tse and colleagues\cite{Tse:2008:ETM:1394445.1394457}, we developed a system that promotes investment in ideas and  encourages authors to strengthen their argument for a particular opinion or solution. We do draw some features from Tse's earlier model, namely grouping and linking movements that can be executed in the public arena. In addition, his notion that personal and group territories should be overlapping is reflected in our system by the access each participant has in their private input space to a list of all other points that users have made on the topic. This feature also incorporates a function inspired by a thesis by Jonas Minke\cite{publication-4659} that highlights the difficulty of searching for particular sticky notes in an affinity diagram. One solution using a digital affinity diagramming system would be to make notes searchable in a list format, which is much more visually tractable. We discuss this feature further in our explanation of the private input space in the DADS interface.
+
+
+We are also inspired by another line of research on idea creation and organization that comes from collaborative web-browsing tools. Paul and Morris' CoSense tool enables group web-based investigation by making better sense of how individuals reach solutions and look for information to support them.\cite{Paul:2009:CES:1518701.1518974} In our experiences with affinity diagramming, we often found that a sticky note was much too small for some of the ideas that users wanted to contribute, especially if the process required people to express persuasive opinions. Therefore, we developed an augmented affinity diagram system that draws from both digital implementations of the affinity diagram process and from collaborative investigation tools like CoSense.
+
+
+\section{System Architecture}
+\begin{figure*}
+\centering
+\includegraphics[width=1.9\columnwidth]{system}
+\caption{{A} Single individual setup with dual extended multi touch monitor at the right side (B) 3 person group setup with a larger monitor at the center}
+\label{fig:figure1}
+\end{figure*}
+
+\subsection{Hardware Setup}
+
+We designed a three-person seating arrangement with synchronous access for this experiment. The system can further accommodate 4 or more individuals, and allows an asynchronous option when remote access is required. The current setup demonstrates what we imagine will be the most common use of the system, to facilitate face-to-face Affinity Diagram creation meetings for small teams. 
+
+\begin{itemize}
+
+\item \textbf{U-shaped Seating Arrangement} - This seating design optimizes the dual monitor system and proximity between each participants. In our 3-person experiments, a large monitor acts as a shared public screen visible by all participants. Even though all secondary screens are synchronized, the large screen serves to assure participants that their manipulations and additions were recorded and synchronized with all other users' boards. 
+\item \textbf{Extended Dual Multi-Touch Monitor} - For each user, their main laptop is located centrally, while their external monitor is to their left side, giving space for the mouse on the right side. We chose to use a multi-touch enabled monitor tilted at 30 degrees, to give users best access to the public space as a virtual 'drawing board,' and also allow eye-level contact for increased gaze awareness between users. 
+\item \textbf{Server Setup} - Our server uses Windows 8, which acts as a database system and a synchronized input-output traffic center. The server does not require high performance for less than 5 simultaneous participants, and rather than high speed performance, the system prefers low latency in order to allow the high-frequency refresh of simultaneous workspaces.
+\end{itemize}
+
+
+
+\subsection{Software design}
+
+DADS was designed and developed at Tohoku University's Human Factors Lab, utilizing the latest agile methods in software development engineering and strict usability testing methodology to achieve a consistent development pace. The team focuses only on using technology that is easily available on the market and leverages highly designed software development capabilities to create a high-quality product with superior user experience for supporting group discussion. The basics of the system can be seen in our previous work, the Discusys system\cite{widjaja2013discusys}. The current system presents several technical and design improvements.
+
+
+The system's software was developed using C\#, mainly Microsoft's .Net 4.5  framework. We built the software natively, choosing Microsoft libraries over other .Net open-source libraries to increase compatibility across critical server, database, and client infrastructure. In addition, we also took advantage of the touch framework library that is currently maturing in Windows 7/8. This library allowed us to include a large screen multitouch monitor in our solution. We utilize a traditional laptop system running Windows 7 and extend the screen with a 22" Iiyama multitouch monitor. The multitouch monitor uses a four-point infrared sensor to detect accurate multitouch from users, and has an 8ms response time. We chose a dual-screen design to increase information display clarity and focus for the users. While the main Private input screen will act as each user's personal input interface,  the public board will focus on collaboration. 
+
+\subsubsection{Real-time Synchronization Technology}
+
+To synchronize events and operations between severs and multiple clients, DADS relies on a network
+socket infrastructure called Photon Engine, created by Exit Games. It is designed for use in MMOGs, and provides reliable low-latency data transport services on top of a user datagram protocol (UDP). Photon can also be used as a Remote Procedure Call (RPC) system and server-side runtime for Application logic. Photon Engine acts as a delivery medium for code execution and callback between multiple clients and servers. For example, if the client calls some code on the server side, the server-side code executes and may return some arguments back to the client. The benefit of Photon is that it serializes the code logic by packeting it in small bytes of integers and creating a continuous call for event updates (up to 10 update calls per second) to simulate synchronous real-time behavior. Without Photon, we would have to deal with network packets directly, either using TCP/IP or UDP sockets. This would lead to an inefficient code execution stream, and increase latency in the system. Photon handles all instant notification needs, including: 1) All updates created by users, 2) All operations on the public board editor (interactive user cursors, moving and editing any shapes), 3) Logging statistics of operations for further analysis. In sum, the Photon Engine server application will process all of DADS' main functions and automatically update any changes made to the SQL server database in real-time.
+
+
+\subsubsection{Private Input Interface}
+
+The private input interface is designed to maximize visibility and navigation capabilities for users viewing both their own points and others' points. Following network socket design standards, each discussion topic is treated as a separate room. Users are asked to give their name and select a color to represent their points on the common board. After identifying themselves, they choose a discussion room to participate in, and upon entering, each user can be identified by their chosen color. Giving each participant an identifying color parallels the practice of giving participants a unique color of sticky notes with which to perform the Analog affinity diagram task. This links ideas to their author and increases the personal dimension of interaction that can sometimes be lost in digital methods\cite{Ballendat:2010:PID:1936652.1936676}.  
+
+There are 5 separate areas in the private dashboard. The private input interface is a workspace intended for users to create points by inputting ideas and information. Figure 1 shows the 3 column dashboard: in the top right hand users can select different topics and switch from one topic to another; the middle column lists all the opinion titles written by each participant; the bottom right corner is where users select and view different participants' points; the lower center column lists the titles of other participants' points. Finally, the full screen right-hand column is where users construct their own points. Three distinct areas allow users to give each idea a title, description, and source documents that support each idea. 
+
+\begin{figure}
+\centering
+\includegraphics[width=1.0\columnwidth]{private}
+\caption{Private Space User Interface}
+\label{fig:figure1}
+\end{figure}
+
+Users can switch freely between the input dashboard and a browser window when they are searching for supporting material.  Early in the development phase, we observed that users often search for more information on the Internet to verify or affirm their ideas. To support this behavior, our system's source attachment function gives users the ability to attach articles or sources from the Internet to their ideas. We included three features that allow users to enhance their ideas with evidence: Internal Browser, Media Attachment, and Screen Shot. The system's internal browser makes it easier for participants to search of evidence to support their ideas. In addition, they can include URLs in their supporting material which will open naturally for other users. Media Attachment allows users to employ the familiar copy and paste functions to upload images from the web. While using the Internet browser, users are able to right-click the images they wish to upload and copy and paste the image url to our media text box in the system's private input form. The system automatically detects the presence and format of media, prompting users to correct badly formatted URLs and showing thumbnails of successfully processed images. We also observed that some users wanted to capture whole areas of a website, or graphics that are not in a standard image format, so we also incorporated a screenshot function. After pressing the screen shot button in our system, the internal web browser will be displayed, and users can scroll up and down to the desired part of the page. Clicking on the screen will initiate the capture window, and letting go of the drag window will capture the screen selection. The screen shot thumbnail is automatically displayed in the private input screen, indicating that the capture was successful. 
+
+
+The private space interface allows users to easily create points related to a topic and populate them with information using familiar cut-and-paste mechanics. A basic interaction process would involve selecting the topic from the Topic window (pictured in Figure 1) and creating a new point in the User Point window, which creates a new card on the Public Information space related to that topic. Users can be identified as the author of a point by the color of the card. Users can also view all of the other points made in two locations: the public board, and the bottom of the center column. This immediate availability may increase creativity by discouraging repetition and allowing implicit collaboration even before the collaborative affinity diagramming activity has begun. After creating a point, users can illustrate their point by adding supplementary information, images, and links in the Private Information Input window. Users can also use the built-in Internet browser in order to get more information or media to illustrate their point. When they are done adding information, the card is complete and they can create a new point, or browse other users' points, just as in the analog version of AD creation.
+
+
+\subsubsection{Public Interactive Space}
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\columnwidth]{public4}
+\caption{(A) Screenshot of Public Space interface with groups and links (B) Card Expansion: double tap gesture expands the selected card to display in-depth information including details, images and comments}
+\label{fig:figure1}
+\end{figure}
+In the public space interface, points written in the private input space are displayed as cards with the author's identity color. The card also displays the point's title and the author's name. These cards can be rearranged by touching and dragging them to a new location on the multitouch screen.
+
+We believe that successful collaboration requires the public space to be synchronized smoothly across different users. To achieve this goal, we utilized the Photon Engine, core technology from a MMOG system that uses network sockets, and adapted the technology to suit our system. Participants are treated like players in a MMOG system, with a unique identity and the ability to manipulate idea boxes and enlarge the details of other participants' ideas. These manipulation input commands are constantly sent to the server, and updates are broadcast to other clients at up to 10 commands per second.  Low latency will determine the smoothness of the public board's control and manipulation responses. 
+
+
+Five key features of the public space allow users to assemble an affinity diagram as easily - or more easily - than they can with the traditional sticky-notes-and-pen "analog" method.
+
+\begin{itemize}
+
+
+\item  \textbf{In-depth Card Details} - Cards on the public surface display only the title of the user's idea. Users can expand the card details by double-clicking on the card. This triggers a window that displays all of the in-depth information that the author included in the idea's supporting materials, including the description, attached links, and media sources. 
+\item  \textbf{Presentation Mode} - Card expansion actions are individually controlled by default. Users can also synchronize card expansions between users or across the whole teaming order to help users control and present their ideas easily, especially during the explanation phase of Affinity Diagram creation.
+\item \textbf{Grouping and Linking} -  Grouping and linking cards can be accomplished using certain motions on the multitouch monitor. If a user presses the 'Group' button and touches cards on the public board with a circular motion between several cards, a border around these cards is created, and these grouped cards can be moved as a unit. Groups of cards can be reorganized by moving any card within the group. Inserting new cards into an existing group happens if any 2 corners of an ungrouped card touches the group. If this occurs, it initiates a regroup function that allows users to insert a new card into the group. Users can link cards or groups to each other by pressing the 'Link' button and clicking two cards in sequence.  
+\item \textbf{Vector Free Draw} - This feature allows users to draw a free-form vector object in the public space that can be moved and re-sized. Editing these objects can be done with a stroke-by-stroke undo process instead of the cumbersome and graphically unappealing eraser function. Unlike the group boundaries and link lines, these objects allow users more flexibility to create symbols and diagrams on the spot, following the design principle that "a picture is worth a thousand words."  
+\item \textbf{Commenting System} - This function replicates the commenting phase of the analog Affinity Diagram process by allowing users to comment on each other's ideas, ask questions, and write comments via the system. Users can expand any card and write comments on another person's ideas. In addition, users are notified of new comments via the system, which allows users to have real-time exchanges with each other. 
+
+\end{itemize}
+
+\subsection{Validating the system}
+Typical group work in which ideas are exchanged involves four main activity types, which generally occur in the linear order below.
+
+\begin{enumerate}
+\item Idea Creation - Users create new ideas based on his or her opinions and perceptions of a single topic. During the idea creation phase, users can employ internet searches in two different typical behaviors. One is to start writing immediately, and use internet-based information to verify their ideas. The other behavior is to search for inspiration on the internet first, and write down ideas based on information discovered in their search. Both idea creation patterns benefit from attaching internet sources (images or URLs) to their ideas. 
+\item Presenting - Even though ideas are always visible on the public board, having ideas explained by their creator is more persuasive than merely reading them. Therefore, our goal was to build a system that helps users explain their ideas easily. We believe that the availability of sources to support ideas will increase users' confidence. A system that allows users to control and broadcast their sources during the explanation phase will increase ease of explanation for idea creators, and increase the whole team's level of understanding.
+\item Comment and Exchange Ideas - Each idea is unique, and in order to understand them team members must be free to question and critique. Thus, easy navigation to specific ideas must be a priority in the commenting system. The exchange of ideas is facilitated by the same turn-taking mechanisms that operate during conversation. Therefore, our system notifies users when a new comment has arrived, and users are able to reply immediately. 
+\item Collaborative Affinity Diagram -The Affinity Diagram process is a common feature of Six Sigma organizations. It is used in business and academic settings to help a group organize their ideas around a specific topic. This simple method groups and links similar and related ideas in order to increase clarity and simplicity. This exercise is a precursor for any problem solving task, and can help teams create more effective solutions based on a unified view of the problem space. 
+\end{enumerate}
+
+
+\subsection{Methodology}
+
+In order to test the usability of our system against traditional methods, we set up two different idea exchange environments which we refer to as Analog and Digital methods. In the analog method, traditional tools are used including a whiteboard, colored sticky notes, and colored markers. Ideas and comments are written on numbered sticky notes. Users write their idea's title using a marker, and comments are written using a black pen. Comments are pasted below the relevant idea note, creating a physical connection between the ideas and comments. To make the experiment equally balanced, we allowed users in the Analog condition to search the Internet and print out any sources they wished to use. Magnets were provided to help connect these printed materials to the idea notes. In the Digital environment, users interacted with our system to conduct the experimental tasks. Before the experiment, participants were given instructions and a tutorial on how to use the system. Upon completing the experiment, participants were invited to participate in a survey comparing and evaluating the system's usability on a number of dimensions.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\columnwidth]{condition}
+\caption{(A) Analog Condition: using sticky note and white board (B) Digital Condition using DADS with auxiliary multitouch monitors.}
+\label{fig:figure1}
+\end{figure}
+
+
+\subsection{Experiment Procedure}
+
+This experiment compares the analog method of affinity diagramming to a new digital approach using the system described above. The affinity diagram process was originally developed to overcome some of the problems inherent in brainstorming and exchanging ideas\cite{kawakita1991original}. During the creation of a collaborative affinity diagram, users go through 5 phases in the Nominal Group Technique:  
+\begin{enumerate}
+\item Introduction and explanation
+\item Silent generation of ideas
+\item Sharing ideas by posting them on an open white board
+\item Group discussion
+\item Voting and ranking
+\end{enumerate}
+This process was developed for problem-solving situations where groups had to agree on actionable next steps \cite{delbecq1971group,gallagher1993nominal}. Our process focused more on brainstorming and making associations between ideas rather than arriving at the best solution for a specific problem. Therefore, we eliminated the Voting and Ranking phase and ended our process after the creation of idea groups by users.
+
+In this experiment, we compared the Analog and Digital methods of Affinity Diagramming within groups of 3 individuals. Having an odd number of participants per group prevents sub-groups from forming - for example, 2 groups of 2. Users were given a different topic for each affinity diagram; they either discussed the recent earthquake recovery process in Japan, or recent developments in Japan's nuclear energy policy. Each group created one Affinity Diagram using the analog method and one in the digital method; the order of methods and topics were counterbalanced across groups. Each diagram went through 4 phases of creation, listed below.
+
+Participants were welcomed and introduced to the purpose of the study. They were then given brief instructions on using the Digital Affinity Diagram System for about 30 minutes, and another 30 minutes to try out the system in the tutorial mock-up scenario to become familiar with the systems and discover system functionality. The experiment schedule and task was then explained to the group before starting the experiment. 
+
+\begin{itemize}
+\item \textbf{Task 1: Idea Generation } - Each user was given 30 minutes to create 5 ideas on the assigned topic. They are given access to the Internet to search for support for their ideas. 
+\item \textbf{Task 2: Present ideas to others } - Each user was given time to present and explain their ideas to the other participants; this stage took about 15 minutes. 
+\item \textbf{Task 3: Exchanging comments } - The group was given 20 minutes to comment on others' ideas and reply to any comment posted to them. They were asked to write as many comments as possible across all the ideas, until the time was up. 
+\item \textbf{Task 4: Affinity Diagram creation} - After commenting on each other's ideas, participants were asked to collaborate on an affinity diagram using the ideas created earlier, grouping similar ideas and linking related ideas using a Nominal Groups technique which was explained to them in the instruction phase. This stage took about 15 minutes.
+\end{itemize}
+
+After completing the task in one mode (Digital or Analog), groups were given a long break before returning to complete the experiment. All participants completed all 4 tasks in both analog and digital methods, for a total of 8 tasks in each experiment group. The total time needed to complete both conditions of the experiment (with breaks) was 5.5 hours per group, on average. To show the equivalence of the two methods, a snapshot of each experimental condition is shown in Figure 4.
+
+
+
+\section{Results}
+
+Data collected from 4 groups of 3 for this experiment (N=12; 7 female and 5 male) is presented in the current paper. Participants were university students between the age of 18 and 24. All students are right-handed, and most students were in the engineering and science programs with the exception of 2 students of agriculture and one student of medicine. Eleven of the participants were regular smartphone users. Seven students had used a dual-screen monitor in the past, and 5 students had not. 
+
+
+Since the goal of designing this system was to improve ease of use for the Affinity Diagram task using a technological interface, our measures focus on system usability and user behavior. We used two survey measures: the System Usability Scale\cite{brooke1996sus}, and a post-experimental questionnaire with 10 1-5 Likert scale rating questions addressing how easy or hard it was to perform certain tasks using either the Digital or the Analog method. For the questionnaire, low scores indicate less reported usability. Our specific questions were:
+
+\begin{enumerate}
+  \item How easy was it to create ideas using this system?
+  \item How easy was it to edit ideas using this system?
+  \item How easy was it to attach sources to your ideas using this system? 
+  \item How easy was it to navigate between points in this system?
+  \item How easy was it to show resources and support for your points in this system?
+  \item How easy was it to write comments on others' ideas in this system?
+  \item How easy was it to reply to comments in this system? 
+  \item How easy was it to create an Affinity Diagram in this system?
+  \item How useful do you think this method is compared to the other method you experienced?  
+  \item How satisfied are you with the final Affinity Diagram that you made using this method?  
+\end{enumerate}
+
+An analysis of participants' answers to these questions is shown in the figures below. Paired t-tests were used to determine the relative strengths and weaknesses of the two methods (Analog and Digital), as perceived by participants.
+
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\columnwidth]{basicchart}
+\caption{(A) User ratings of Ease of Use: Analog vs. Digital}
+\label{fig:figure1}
+\end{figure}
+
+
+Participants reported that it is relatively easier to conduct the tasks in the Digital environment compared to the Analog method, and that overall, the Digital environment makes creating the collaborative affinity diagram easier than the traditional method. In the Analog condition, these tasks required navigating personal space with other users, utilizing small text spaces, editing by erasing and re-writing in that small text space, and searching a large area for a target idea card. The digital condition improves on the analog environment by giving each participant their own personal space without diminishing interactivity or the opportunity for conversation. The ease of creating, editing, and attaching sources to points was deliberately engineered into our system. Editing points in the digital environment involves familiar text manipulation, while in the analog environment participants must erase and re-write information, which may discourage them from making edits. The digital environment also makes search and navigation easier, and provides multiple methods for search: via the public space on the multitouch screen, and via the list of other users' points in the private input space. We should also emphasize the impact of personal space in the digital environment; as stated above, multitouch screens that represented public space were tilted at a 30-degree angle to make conversation easier, and there was also a larger monitor that represented the public space in a central location. This allowed participants to take advantage of joint eye gaze and a repository of mutual knowledge during the comment phase, while simultaneously having immediate control over the board at their fingertips. We suspect that these features contributed to participants' Ease of Use and Satisfaction with the digital system. Specifically, participants found it marginally easier to create Digital points (M= 4.17 (SD = 1.03)) compared to Analog points (M=3.17 (1.11) p \textless 0.05) and significantly easier to edit these points, attach sources, navigate between points, and create the final affinity diagram.  Participants found the Digital editing function significantly easier (M = 4.17 (1.34)) than the same process in the Analog condition (M = 2.58 (0.90), p \textless 0.01). Participants also found navigating between points in the new system (M = 4.33 (0.65)) significantly easier than in the old system (M = 2.50 (1.00), p \textless 0.01), which was one of our primary goals in designing the system. These results are aligned with participants' reports that collaborating on the affinity diagram was easier using the digital system (M = 4.00 (0.85)) than the analog system (M = 2.58(1.00), p = 0.01). Responses to these questions give us a higher level of detail about the usability of specific features. Participants' scores show us that the private input interface improves the most difficult tasks in the affinity diagram process: creating, supporting, and finding other users' points. 
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\columnwidth]{attach}
+\caption{Ease of Attachment and Ease of Showing Ideas leads to greater understanding between participants}
+\label{fig:figure1}
+\end{figure}
+
+These self-reports are also supported by data from users' behavior.  Figure 6 shows a clear relationship between how easily participants felt they could attach sources and show points, and how well they understood others' points. Participants felt that it was easier to attach sources in the digital system (M = 4.58 (0.67)) than in the analog system (M= 2.00 (0.85)  p \textless 0.01). This is supported by a greater number of attachments associated with each idea in the digital system (M = 6.17 (2.86)) than in the analog system (M = 3.67 (1.61), p \textless 0.01). This greater number of attachments is also associated with higher reported rates of understanding in the digital system (M = 4.00 (0.85), p = 0.04). Navigation and attachment required fewer and smaller physical movements by the participant in the digital environment. Since the environment was itself digital, it was less cumbersome to look up new sources on the Internet to support points. 
+
+Figure 7 shows a relationship between the ease of creating the affinity diagram process and participants' satisfaction with the system as a whole. This should not be surprising, since the goal of the system was to produce a coherent, well-understood affinity diagram.
+
+\begin{figure}[!h]
+\centering
+\includegraphics[width=1.0\columnwidth]{affinity}
+\caption{(A) User ratings of Ease of Use: Analog vs. Digital}
+\label{fig:figure1}
+\end{figure}
+
+The results also show that participants felt they had more flexibility in the digital environment than in the analog environment, even though the digital sessions took significantly longer. Time spent per group discussion in the Digital condition was 916.5 seconds (SD = 314.36), compared to 431.0 seconds (SD = 97.51) in the Analog condition. This may be related to different degrees of comfort: average Digital participant scored 3.92 (SD = 0.79) on this measure compared to Analog at 3.25 (SD = 1.22). Time spent in discussion also relates to the number of card manipulations and re-grouping done by participants. We coded participants' behaviors in both the Analog and Digital conditions, counting the number of times cards were moved and re-grouped, as well as the number of supporting attachments users made to their points. Card movements per participant are calculated per minute during the fourth phase of the experiment, Affinity Diagram Creation. On average, users carried out 26.75 (SD = 13.63) moves in the Digital condition compared to 6.75 (SD = 2.56) moves in the Analog condition.
+
+\begin{table}[ht]
+\centering
+\caption{Mean Card Movements, Attachments of users Per User and Time taken to complete affinity diagram by Condition}
+
+\begin{tabular}{rrrr}
+  \hline
+& Analog (SD) & Digital(SD) & p-value \\ 
+  \hline
+  \hline
+Card Moves  &    6.75(2.56)& 26.75(13.63)   &  \textless0.01    \\
+Attach & 3.67(1.61)  &    6.17(2.86)    &  \textless0.01    \\
+AD Time  &    431.0(97.51)   &      916.5(314.36)      &   \textless0.01    \\ 
+\hline
+\end{tabular}
+\end{table}
+
+
+
+We calculated 3 objective scores for the digital system based on the industry-standard SUS instrument: Usability Score, Learnability Score, and finally the overall SUS score. The usability score was \textbf{71.4}, which is above average, but the learnability Score is \textbf{52.1}. Users still are not accustomed to the setup, and many said they needed more time to familiarize themselves with the system. Our system's overall score on the System Usability Scale was \textbf{67.5}, which indicates that the system is very user-friendly and should be considered a viable alternative to traditional methods. 
+
+
+\begin{table}[ht]
+\centering
+\caption{ System Usability Scale Score Table}
+
+\begin{tabular}{rrrr}
+  \hline
+ & Usability  & Learnability & SUS  \\ 
+  \hline
+Score  & 71.4 & 52.1 & 67.5 \\ 
+
+   \hline
+\end{tabular}
+\end{table}
+
+
+\section{Discussion}
+
+This experiment shows that the Digital Affinity Diagram System receives high user ratings on standard measures such as usability, learnability, and SUS, as well as more specific ratings on the mechanics of the system. Actions such as creating and navigating between ideas is easier in our system compared to the analog method. In addition, the number of sources attached to each idea is higher in the digital system, which may lead users to feel more confident about their ideas. Commenting on each other's points is also easier in the digital environment compared to analog. However, there is no significant difference between how well these systems help groups understand each other during the creation of an Affinity Diagram. Likewise, the two systems score evenly on whether they improve teamwork. The digital system can maintain the same level of teamwork despite working in an unfamiliar platform. Groups also spend more time creating the digital affinity diagram - on average, an additional 350 seconds.  While some of this time may be due to the unfamiliarity of the tool, we believe most of this time is spent making and re-forming cognitive connections within and between topics. We see evidence of enhanced engagement with ideas in the number of movements that each point undergoes in the AD process: 4 times more movements in our DADS system than in the analog environment. Finally, users report a higher level of satisfaction with the digital content compared to the analog content. 
+
+\section{Conclusion}
+Our system presents a clear improvement over other digital idea exchange environments, and has many advantages compared to the traditional pen-and-paper method. Based on this experiment, we can conclude that current digital methods create a more satisfying experience of organizing ideas within a team compared to traditional methods. This study shows many of the benefits our system can provide in helping users to exchange and organize their ideas better. 
+
+
+This experiment also presents several avenues for future research. It is possible that exposing all participants to both methods biased them in favor of the technological method, so future experiments will make the system used a between-participants condition to increase the clarity of the research's implications. More detailed analyses could be performed on the current data to show whether there is a correlation in individual participants between ease of use and behavioral measures like number of actions taken or number of attachments made. This system also lends itself to real-world applications; if it is extended for business use, future iterations should record all idea cards and attached material in a database for re-use the next time a team within the organization discusses a similar topic. 
+
+
+\section{Acknowledgments}
+
+We would like to extend our gratitude to Tohoku University for providing laboratory facilities, Various open-source communities that supported the software development, numerous volunteers that participated in the testing phase by giving constructive feedback to improve system,  Japanese MEXT for government funding and scholarship, the team from ACM who provided the latex format and for Ubicomp2014 for organizing the conference.
+
+% either use a hack like flushend or balance, or manually insert
+% a column break.  http://www.tex.ac.uk/cgi-bin/texfaq2html?label=balance
+% multicols doesn't work because we're already in two-column mode,
+% and flushend isn't awesome, so I choose balance.  See this
+% for more info: http://cs.brown.edu/system/software/latex/doc/balance.pdf
+%
+% Note that in a perfect world balance wants to be in the first
+% column of the last page.
+%
+% If balance doesn't work for you, you can remove that and
+% hard-code a column break into the bbl file right before you
+% submit:
+%
+% http://stackoverflow.com/questions/2149854/how-to-manually-equalize-columns-
+% in-an-ieee-paper-if-using-bibtex
+%
+% Or, just remove \balance and give up on balancing the last page.
+%
+% References must be the same font size as other body text.
+
+\bibliographystyle{acm-sigchi}
+\bibliography{sample}
+\end{document}

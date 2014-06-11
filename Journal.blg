@@ -1,0 +1,13 @@
+This is BibTeX, Version 0.99dThe top-level auxiliary file: Journal.aux
+The style file: acm-sigchi.bst
+Database file #1: sample.bib
+I was expecting a `,' or a `}'---line 407 of file sample.bib
+ :   publisher={Br Computer Soc}
+ :                              H
+I'm skipping whatever remains of this entry
+Repeated entry---line 655 of file sample.bib
+ : @book{Myers2003
+ :                ,
+I'm skipping whatever remains of this entry
+Warning--empty journal in judgeusing
+(There were 2 error messages)
